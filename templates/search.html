@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Results {% endblock %}
+
+
+{% block data %}
+<link rel="stylesheet" href='{% static "css/search-results.css" %}'>
+
+{% if not videos %}
+<div class="container">
+    <h1 class="alert alert-primary  m-5">There is no results <i class="fas fa-sad-tear"></i></h1>
+</div>
+{% endif %}
+{% for video in videos %}
+    <div class="cont">
+        <div class="img-side" style="width: 50%;padding: 0;">
+            <img src="{{video.video_img.url}}" alt="">
+        </div>
+        <div class="info" style="width: 80%;">
+            <div class="up-side">
+                <h1>{{video.title |truncatechars:20}}</h1>
+                <p>{{video.caption|truncatechars:200}}</p>
+                <a href="{% url 'Vvideo' video.id %}">Watch</a>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+{% endblock %}

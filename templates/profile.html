@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} {{request.user}}'s Profile {% endblock %}
+
+
+{% block data %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+
+<div class="bg">
+    <img src="{{get.bg.url}}" alt="">
+    <div class="user">
+        <div class="left">
+            <img src="{{get.fg.url}}" alt=""><br>
+            <p>@{{get.user}}</p>
+        </div>
+        <div class="right">
+            <h4>{{get.ch_name}}</h4><br>
+            <span>{{get.subs.count}} <i class="fas fa-user"></i></span>
+        </div>
+    </div>
+</div>
+
+<h1 class="videos">Videos</h1>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<div class="cont">
+
+    <div class="row">
+
+        
+        {% for i in videos %}
+            <div class="col-lg-4 col-sm-12 p-0">
+                <div class="post">
+                    <div class="up" id="up">
+                        <img src="{{i.video_img.url}}" >
+                    </div>
+                    <div class="play" id="play">
+                        <a href="{% url 'Vvideo' i.id %}" class="fas fa-play"></a>
+                        <!-- <button class="fas fa-play" id="btn"></button> -->
+                    </div>
+            
+                    <div class="down">
+                        <img src="{{i.user.profile.fg.url}}" alt="">
+                        <a href="{% url 'VUser' i.user.username%}">{{i.user.username}}</a>
+                        <div class="caption">
+                            <p>{{i.title}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        
+
+        
+        
+        
+
+
+    </div>
+</div>
+
+
+
+{% endblock %}

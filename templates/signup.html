@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Signup {% endblock %}
+
+{% block data %}
+
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+<div class="box">
+    <form action="{% url 'signup' %}" method="POST">
+        {% csrf_token %}
+
+        
+        <center><h1>signup</h1></center>
+        {% if form.errors %}
+            {% for key,val in form.errors.items %}
+                {% for error in val %}
+                    <div class="alert alert-danger">{{error}}</div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+
+    <div class="in">
+        <label for="username">Username</label>
+        <div class="cont">
+            <input name="username" type="text" id="username" required>
+            <i class="fas fa-user"></i>
+        </div>
+    </div>
+
+    <div class="in">
+        <label for="ch">Channel Name</label>
+        <div class="cont">
+            <input name="channel_name" type="text" id="ch" required>
+            <i class="fas fa-tv"></i>
+        </div>
+    </div>
+
+    <div class="in">
+        <label for="email">E-mail</label>
+        <div class="cont">
+            <input name="email" type="email" id="email" required>
+            <i class="fas fa-at"></i>
+        </div>
+    </div>
+
+    <div class="in">
+        <label for="pas">Password</label>
+        <div class="cont">
+            <input name="password1" type="password" id="pas" required>
+            <i class="fas fa-key"></i>
+        </div>
+    </div>
+
+
+    <div class="in">
+        <label for="pas">Confirm Password</label>
+        <div class="cont">
+            <input name="password2" type="password" id="pas" required>
+            <i class="fas fa-key"></i>
+        </div>
+    </div>
+
+    <div class="down">
+        <button type="submit">Signup</button>
+        <a href="{% url 'login' %}">login</a>
+    </div>
+
+</form>
+</div>
+{% endblock %}

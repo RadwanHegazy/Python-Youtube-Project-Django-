@@ -1,0 +1,106 @@
+.bg {
+    position: relative;
+    width: 100%;
+    background-color: #ccc;
+    height: 350px;
+    text-align: center;
+}
+
+.bg img {
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.user {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -80px;
+    padding: 12px;
+    padding: 3px;
+    width: 100px;
+    height: 120px;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user .left {
+    width: 100px;
+    height: 100px;
+}
+
+.user .left img {
+    width: 100%;
+    height: 100%;
+}
+
+.user .right {
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+}
+
+
+.user span{ 
+    position: absolute;
+    width: 200px;
+    background-color: #ff9900;
+    padding: 7px;
+    font-weight: bold;
+    color: #fff;
+    right: 0;
+}
+
+.videos {
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    text-align: center;
+    border-bottom: 1px solid #ff9900;
+    padding-bottom: 25px;
+    color: #ff9900;
+}
+
+.cont {
+    position: relative;
+    width: 90%;
+    margin: auto;
+    bottom: -290px;
+}
+
+button {
+    outline: none;
+}
+.subs {
+    width: 100%;
+    color: #ff9900;
+    background-color: transparent;
+    border: 1px solid #ff9900;
+    outline: none;
+    padding: 7px;
+    font-weight: bolder;
+    position: relative;
+    text-transform: uppercase;
+}
+
+.subs::after{
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #000;
+    z-index: -1;
+    height: 0;
+    transition: all 0.3s ease;
+}
+
+.subs:hover::after {
+    height: 100%;
+}

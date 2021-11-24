@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {{usr.username}} {% endblock %}
+
+{% block data %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+
+<div class="bg">
+    <img src="{{get.profile.bg.url}}" alt="">
+    <div class="user">
+        <div class="left">
+            <img src="{{get.profile.fg.url}}" alt=""><br>
+            <p>@{{get.username}}</p>
+            <form action="{% url 'Usubs' get.username %}">
+                {% csrf_token %}
+                {% if user in get.profile.subs.all %}
+                    <button class="subsok" style="width: 100%;color: #fff;border:none;background-color: #2dff2d;outline: none;padding: 7px;font-weight: bolder;position: relative;text-transform: uppercase;" type="submit">Subscribe</button>
+                {% else %}
+                    <button class="subs" type="submit">Subscribe</button>
+                {% endif %}
+            </form>
+        </div>
+        <div class="right">
+            <h4>{{get.profile.ch_name}}</h4><br>
+            <span>{{get.profile.subs.count}} <i class="fas fa-user"></i></span>
+        </div>
+    </div>
+</div>
+
+<h1 class="videos">Videos</h1>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<div class="cont">
+
+    <div class="row">
+
+        
+        {% for i in videos %}
+            <div class="col-lg-4 col-sm-12 p-0">
+                <div class="post">
+                    <div class="up" id="up">
+                        <img src="{{i.video_img.url}}" >
+                    </div>
+                    <div class="play" id="play">
+                        <a href="{% url 'Vvideo' i.id %}" class="fas fa-play"></a>
+                    </div>
+            
+                    <div class="down">
+                        <img src="{{i.user.profile.fg.url}}" alt="">
+                        <a href="{% url 'VUser' i.user.username%}">{{i.user.username}}</a>
+                        <div class="caption">
+                            <p>{{i.title}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        
+
+        
+        
+        
+
+
+    </div>
+</div>
+
+
+
+{% endblock %}

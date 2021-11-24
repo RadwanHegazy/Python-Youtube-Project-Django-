@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Upload Vides {% endblock %}
+
+{% block data %}
+<link rel="stylesheet" href="{% static 'css/upload-video.css' %}">
+<link rel="stylesheet" href="{% static 'css/edit-profile.css' %}">
+
+
+<div class="box">
+
+    <div class="left-side">
+        <form method="POST" action="." enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title">
+
+            <label for="area">Caption</label>
+            <textarea name="caption"  id="area"></textarea>
+            <button type="submit">Upload</button>
+        </div>
+        
+        <div class="right-side">
+            
+            <label for="">Video</label>                
+            <div class="video-up" style="position: relative;">
+                <span id="viewVideo">No Videos Yet !</span>
+                <!-- <video  controls aria-label="Noe" ></video> -->
+                <input type="file" name="video" accept="video/*" id="video" style="display: none;">
+            </div>
+            <div class="video-btns">
+                <button type="button" id="videoBtn">Choose Video</button>
+                <button type="button" id="removevid">Remove</button>
+            </div>
+            <hr>
+            
+            <label for="">Photo</label>
+            <div class="video-up" style="position: relative;">
+                <span id="viewImage">No images Yet !</span>
+                <input type="file" name="video_img" accept="image/*" style="display: none;" id="img">
+            </div>
+            <div class="video-btns">
+                <button type="button" id="imgBtn">Choose Photo</button>
+                <button type="button" id="removeimg">Remove Photo</button>
+            </div>
+        </div>
+    </form>
+    </div>
+    
+    <style>
+        #viewImage.active, #viewVideo.active {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            color: rgb(79, 235, 79);
+        font-size: 20px;
+    }
+</style>
+
+<script>
+    // upload image
+    var img = document.getElementById('img')
+    var imgBtn = document.getElementById('imgBtn')
+    imgBtn.onclick = function(){
+        img.click()
+    }
+
+    img.onchange = function(){
+        $('#viewImage').text(img.files[0].name)
+        $('#viewImage').toggleClass('active')
+    }
+
+    document.getElementById('removeimg').onclick = function(){
+        $('#viewImage').removeClass('active')
+        $('#viewImage').text('No images Yet !')
+    }
+
+    // upload video
+    var video = document.getElementById('video')
+    var videoBtn = document.getElementById('videoBtn')
+    videoBtn.onclick = function(){
+        video.click()
+    }
+
+    video.onchange = function(){
+        $('#viewVideo').text(video.files[0].name)
+        $('#viewVideo').toggleClass('active')
+    }
+
+    document.getElementById('removevid').onclick = function(){
+        $('#viewVideo').removeClass('active')
+        $('#viewVideo').text('No Videos Yet !')
+    }
+</script>
+
+{% endblock %}

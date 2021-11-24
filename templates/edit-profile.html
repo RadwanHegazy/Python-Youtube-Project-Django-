@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Edit Profile {% endblock %}
+
+
+{% block data %}
+<link rel="stylesheet" href="{% static 'css/edit-profile.css' %}">
+<div class="overlay" id="over">
+    <div class="flds">
+        <div class="up">
+            <label>Change Password</label>
+            <button class="fas fa-window-close" id="closeIn"></button>
+        </div>
+        <form action="{% url 'ch_pass' %}" method="POST">
+            {% csrf_token %}
+            <input type="password" name="old_password" placeholder="Old Password">
+            <input type="password" name="new_password1" placeholder="New Password">
+            <input type="password" name="new_password2" placeholder="Confirm Password">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+
+<div class="box">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="bg">
+            <div class="mg">
+                <img src="{{user.profile.bg.url}}" id="bgimage" alt="">
+                <button type="button" class="fas fa-camera" id="bgBtn"></button>
+                <input type="file" accept="image/*" name="bg" onchange="loadBgFile(event)" id="bg" style="display: none;">
+            </div>
+            <div class="user">
+                <img src="{{user.profile.fg.url}}" id="fgimage" alt="">
+                <button type="button" class="fas fa-camera" id="fgBtn"></button>
+                <input type="file" accept="image/*"  name="fg" onchange="loadFgFile(event)" id="fg" style="display: none;">
+            </div>
+        </div>
+
+        <div class="up">
+            <div class="right-side">
+                <label for="user">Username</label>
+                <input type="text" disabled id="user" style="background-color: #ccc;" value="{{user}}">
+            </div>
+            <div class="left-side">
+                <label for="chname">Channel Name</label>
+                <input type="text" name="ch_name" value="{{user.profile.ch_name}}" id="chname">
+            </div>
+        </div>
+
+        <div class="up" style="margin-top: 10px;">
+            <div class="right-side">
+                <label for="mail">E-mail</label>
+                <input type="email" id="mail" name="email" value="{{user.profile.email}}">
+            </div>
+            <div class="left-side">
+                <button id="changepas" type="button">Change Passowrd</button>
+            </div>
+        </div>
+            
+        <button type="submit" class="save">Save Changes</button>
+
+    </form>
+</div>
+
+    <script>
+        
+        // Change bg image
+        var loadBgFile = function(event) {
+            var reader = new FileReader();
+            reader.onload = function(){
+                var output = document.getElementById('bgimage');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+            };
+        document.getElementById('bgBtn').onclick = function(){
+            document.getElementById('bg').click();
+        }
+        // end of bg
+
+        // Change fg image 
+        var loadFgFile = function(event) {
+            var reader = new FileReader();
+            reader.onload = function(){
+                var output = document.getElementById('fgimage');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+            };
+        document.getElementById('fgBtn').onclick = function(){
+            document.getElementById('fg').click();
+        }
+    </script>
+{% endblock %}

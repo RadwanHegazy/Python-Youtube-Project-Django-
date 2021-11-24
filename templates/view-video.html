@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {{video.title}} {% endblock %}
+
+{% block data %}
+<link rel="stylesheet" href="{% static 'css/view-video.css' %}">
+<div class="video-side">
+    <div class="video-place">
+        <video controls src="{{video.video.url}}" autoplay></video>
+        <div class="des">
+            <p>{{video.title}}</p>
+        </div>
+        <div class="state">
+            <div class="state-left">
+                <img src="{{video.user.profile.fg.url}}" alt="">
+                <p>{{video.user.profile.ch_name}}</p>
+            </div>
+            <div class="state-right">
+                <button class="fas fa-eye"> {{video.views.count}}</button>
+                <form action="{% url 'likeVideo' video.id %}" method="POST" id="LikeForm">
+                    {% csrf_token %}
+                    {% if user in video.likes.all %}
+                        <button class="fas fa-thumbs-up" id="LikeBtn"> {{video.likes.count}}</button>
+                    {% else %}
+                        <button class="far fa-thumbs-up" id="LikeBtn"> {{video.likes.count}}</button>
+                    {% endif %}
+                </form>
+                <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+                <script>
+                    $('#LikeForm').submit(function(e){
+                        e.preventDefault()
+                        var VideoID = "{{video.id}}"
+                        var url = $(this).attr('action')
+                        console.log(url)
+                        console.log(VideoID)
+                        $.ajax({
+                            type:'POST',
+                            url:url,
+                            data:{
+                                'videoId':VideoID,
+                                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
+                            },
+                            success:function(doneData) {
+                                console.log(doneData)
+                                var clickde = $('#LikeBtn').hasClass('far') ;
+                                if (clickde === true) {
+                                    $('#LikeBtn').text(" "+doneData)
+                                    $('#LikeBtn').removeClass()
+                                    $('#LikeBtn').toggleClass('fas fa-thumbs-up')
+                                }else {
+                                    $('#LikeBtn').text(" "+doneData)
+                                    $('#LikeBtn').removeClass()
+                                    $('#LikeBtn').toggleClass('far fa-thumbs-up')
+
+                                }
+                                
+                            },
+                            error:function(error){
+                                console.log('Error')
+                                console.log(error)
+                            }
+                        })
+                    })
+                </script>
+            </div>
+        </div>
+        <div class="video-caption">
+            <textarea id="" cols="30" rows="10" disabled style="cursor: text;resize: none;">{{video.caption}}</textarea>
+        </div>
+    </div>
+
+</div>
+
+<div class="comment-side">
+    <div class="comt">
+        <form action="{% url 'comment' video.pk %}" method="POST">
+            {% csrf_token %}
+            <input name="comment" type="text" placeholder="Comment">
+            <button class="fas fa-arrow-right" type="submit"></button>
+        </form>
+    </div>
+    <hr>
+    {% for comment in comments %}
+        <div class="user-comment">
+            <div class="upp">
+                <img src="{{comment.user.profile.fg.url}}" alt="">
+                <a href="{% url 'VUser' comment.user.username %}">{{comment.user.username}}</a>
+            </div>
+            <p>{{comment.comment}}</p>    
+        </div>
+    {% endfor %}
+</div>
+
+<style>
+.user-comment {
+    overflow: hidden;
+}
+.user-comment .upp {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+}
+
+.user-comment .upp a {
+    background-color: #fa3044;
+    color: #fff;
+    text-decoration: none;
+    outline: none;
+    border-radius: 8px;
+    padding: 5px;
+    font-weight: bold;
+    position: absolute;
+    right: -80px;
+    transition: all 0.3s ease;
+}
+
+.user-comment:hover .upp a {
+    opacity: 0.5;
+    right: 10px;
+}
+
+.user-comment .upp a:hover {
+    opacity: 1;
+}
+</style>
+
+
+<div class="list-videos">
+
+    {% for i in videos %}
+        <div class="post">
+            <div class="up" id="up">
+                <img src="{{i.video_img.url}}" >
+            </div>
+            <div class="play" id="play">
+                <a href="{% url 'Vvideo' i.id %}" class="fas fa-play"></a>
+            </div>
+
+            <div class="down">
+                <img src="{{i.user.profile.fg.url}}" alt="">
+                <a href="{% url 'VUser' i.user.username%}">{{i.user.username}}</a>
+                <div class="caption">
+                    <p>{{i.title}}</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+</div>
+
+
+
+{% endblock %}

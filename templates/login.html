@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block title %} Login {% endblock %}
+
+{% block data %}
+
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+<div class="box">
+    <form method="POST">
+        {% csrf_token %}
+        <center><h1>login</h1></center>
+
+        {% if form.errors %}
+            {% for key,val in form.errors.items %}
+                {% for error in val %}
+                    <div class="alert alert-danger">{{error}}</div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+    
+        <div class="in">
+            <label for="username">Username</label>
+            <div class="cont">
+                <input name="username" type="text" id="username">
+                <i class="fas fa-user"></i>
+            </div>
+        </div>
+    
+        <div class="in">
+            <label for="pas">Password</label>
+            <div class="cont">
+                <input name="password" type="password" id="pas">
+                <i class="fas fa-lock"></i>
+            </div>
+        </div>
+    
+        <div class="down">
+            <button type="submit">login</button>
+            <a href="{% url 'signup' %}">Signup</a>
+        </div>
+    </form>
+
+</div>
+
+
+
+{% endblock %}
